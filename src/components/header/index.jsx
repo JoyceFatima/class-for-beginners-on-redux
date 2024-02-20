@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // Components
@@ -7,16 +7,15 @@ import Cart from "../cart/index";
 // Styles
 import * as Styles from "./styles";
 import { loginUser, logoutUser } from "../../redux/user/action";
+import { selectProductsCount } from "../../redux/cart/cart.selectors";
 
 function Header() {
-  const { user } = useSelector((reducer) => reducer.userReducer);
-  const { products } = useSelector((reducer) => reducer.cartReducer);
   const dispatch = useDispatch();
+  const { user } = useSelector((reducer) => reducer.userReducer);
+
   const [cartIsVisible, setCartIsVisible] = useState(false);
 
-  const productsCount = useMemo(() => {
-    return products.reduce((acc, product) => acc + product.quantity, 0);
-  }, [products])
+  const productsCount = useSelector(selectProductsCount)
 
   const handleCartClick = () => {
     setCartIsVisible(true);
